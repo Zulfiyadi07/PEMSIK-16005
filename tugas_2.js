@@ -134,8 +134,10 @@ const jumlahMahasiswa = () => mahasiswaList.mahasiswa.length;
 const sortByNIM = () =>
 	mahasiswaList.mahasiswa.sort((a, b) => a.nim.localeCompare(b.nim));
 
-const sortByStatus = () =>
+const sortByStatus = () => {
 	mahasiswaList.mahasiswa.sort((a, b) => Number(b.status) - Number(a.status));
+	return [...mahasiswaList.mahasiswa];
+};
 
 const jumlahAktifTidak = () => ({
 	aktif: mahasiswaList.mahasiswa.filter((mhs) => mhs.status).length,
@@ -181,11 +183,13 @@ console.log(`Jumlah mahasiswa: ${jumlahMahasiswa()}`);
 sortByNIM();
 console.log("Urut berdasarkan NIM:", mahasiswaList.mahasiswa.map((mhs) => mhs.nim));
 
-sortByStatus();
-console.log("Urut berdasarkan status:", mahasiswaList.mahasiswa.map((mhs) => ({
+const mahasiswaUrutStatus = sortByStatus().map((mhs) => ({
+	NIM: mhs.nim,
 	nama: mhs.nama,
 	status: mhs.status ? "Aktif" : "Tidak Aktif",
-})));
+}));
+console.log("Urut berdasarkan status (Aktif lalu Tidak Aktif):");
+console.table(mahasiswaUrutStatus);
 console.log("Jumlah aktif dan tidak aktif:", jumlahAktifTidak());
 
 deleteById("A11.2024.16001");
